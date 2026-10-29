@@ -113,6 +113,7 @@ jobs:
     needs: package-linux
     permissions:
       contents: read
+      packages: write
     steps:
       - uses: actions/checkout@v7
 
@@ -121,20 +122,6 @@ jobs:
           name: icey-server-image-inputs
           path: .
 
-      - name: Check Docker Hub credentials
-        env:
-          DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
-          DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
-        run: |
-          test -n "$DOCKERHUB_USERNAME" || {
-            echo "DOCKERHUB_USERNAME is required to publish the 0state/icey-server image" >&2
-            exit 1
-          }
-          test -n "$DOCKERHUB_TOKEN" || {
-            echo "DOCKERHUB_TOKEN is required to publish the 0state/icey-server image" >&2
-            exit 1
-          }
-
       - name: Derive image version
         id: image_version
         run: echo "version=${GITHUB_REF_NAME#v}" >> "$GITHUB_OUTPUT"
@@ -142,17 +129,20 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v4
 
-      - name: Log in to Docker Hub
+      - name: Log in to GHCR
         uses: docker/login-action@v4
         with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Extract image metadata
         id: image_meta
         uses: docker/metadata-action@v6
         with:
-          images: 0state/icey-server
+          images: ghcr.io/auscaster/icey-server
+          labels: |
+            org.opencontainers.image.url=https://auscaster.com/icey
           tags: |
             type=raw,value=${{ steps.image_version.outputs.version }}
             type=raw,value=latest
@@ -177,7 +167,7 @@ jobs:
         env:
           IMAGE_VERSION: ${{ steps.image_version.outputs.version }}
         run: |
-          docker run -d --name icey-release-smoke -p 127.0.0.1:14500:4500 "0state/icey-server:${IMAGE_VERSION}"
+          docker run -d --name icey-release-smoke -p 127.0.0.1:14500:4500 "ghcr.io/auscaster/icey-server:${IMAGE_VERSION}"
           trap 'docker rm -f icey-release-smoke >/dev/null 2>&1 || true' EXIT
           for attempt in {1..20}; do
             if curl -fsS http://127.0.0.1:14500/api/health >/dev/null; then
@@ -190,13 +180,13 @@ jobs:
             sleep 1
           done
           docker rm -f icey-release-smoke >/dev/null
-          docker push "0state/icey-server:${IMAGE_VERSION}"
-          docker push 0state/icey-server:latest
-          version_digest="$(docker buildx imagetools inspect "0state/icey-server:${IMAGE_VERSION}" | awk '/^Digest:/ {print $2; exit}')"
-          latest_digest="$(docker buildx imagetools inspect 0state/icey-server:latest | awk '/^Digest:/ {print $2; exit}')"
+          docker push "ghcr.io/auscaster/icey-server:${IMAGE_VERSION}"
+          docker push ghcr.io/auscaster/icey-server:latest
+          version_digest="$(docker buildx imagetools inspect "ghcr.io/auscaster/icey-server:${IMAGE_VERSION}" | awk '/^Digest:/ {print $2; exit}')"
+          latest_digest="$(docker buildx imagetools inspect ghcr.io/auscaster/icey-server:latest | awk '/^Digest:/ {print $2; exit}')"
           test -n "$version_digest"
           test "$version_digest" = "$latest_digest"
-          echo "Verified 0state/icey-server:${IMAGE_VERSION} at ${version_digest}"
+          echo "Verified ghcr.io/auscaster/icey-server:${IMAGE_VERSION} at ${version_digest}"
 
   publish-homebrew:
     runs-on: ubuntu-24.04

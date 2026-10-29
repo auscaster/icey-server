@@ -15,7 +15,7 @@ No Node.js runtime, no third-party services. One binary, two ports (HTTP/WS + TU
 If you need the shortest end-to-end path, use the [Docker demo path](docker/README.md):
 
 ```bash
-docker run --rm --network host 0state/icey-server:latest
+docker run --rm --network host ghcr.io/auscaster/icey-server:latest
 ```
 
 Then open `http://localhost:4500` and click `Watch` on the `icey` peer.

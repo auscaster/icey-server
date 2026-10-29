@@ -4,6 +4,7 @@
 
 - Update package metadata, release downloads and project links to auscaster.
 - Publish APT updates to the transferred auscaster/packages repository and use apt.auscaster.com in generated installation instructions.
+- Publish container images to ghcr.io/auscaster/icey-server using the release repository's GitHub identity.
 
 ## Unreleased
 

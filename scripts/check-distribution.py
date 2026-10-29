@@ -27,7 +27,14 @@ HEADERS = {"User-Agent": "icey-release-audit/1.0"}
 
 def fetch(url):
     try:
-        with urlopen(Request(url, headers=HEADERS), timeout=20) as response:
+        headers = dict(HEADERS)
+        if url.startswith("https://ghcr.io/v2/auscaster/icey-server/"):
+            # Public GHCR pulls still require an anonymous, pull-only bearer grant.
+            token_url = "https://ghcr.io/token?service=ghcr.io&scope=repository:auscaster/icey-server:pull"
+            with urlopen(Request(token_url, headers=HEADERS), timeout=20) as response:
+                headers["Authorization"] = "Bearer " + json.load(response)["token"]
+            headers["Accept"] = "application/vnd.oci.image.manifest.v1+json, application/vnd.docker.distribution.manifest.v2+json"
+        with urlopen(Request(url, headers=headers), timeout=20) as response:
             payload = response.read()
             return (gzip.decompress(payload) if url.endswith(".gz") else payload).decode(), None
     except HTTPError as error:
@@ -76,6 +83,18 @@ def server_assets(body):
 
 def docker_version(body):
     return json.loads(body)["name"]
+
+
+def ghcr_labels(body):
+    digest = json.loads(body)["config"]["digest"]
+    if not re.fullmatch(r"sha256:[0-9a-f]{64}", digest):
+        raise ValueError("Invalid container config digest")
+    config, error = fetch(f"https://ghcr.io/v2/auscaster/icey-server/blobs/{digest}")
+    if error:
+        raise ValueError(f"Container config unavailable: {error}")
+    if hashlib.sha256(config.encode()).hexdigest() != digest.removeprefix("sha256:"):
+        raise ValueError("Container config checksum does not match manifest")
+    return json.loads(config)["config"]["Labels"]
 
 
 def aur_version(package):
@@ -166,8 +185,9 @@ def main():
          f"https://api.github.com/repos/auscaster/icey-server/releases/tags/v{SERVER_VERSION}", server_assets),
         ("Icey Docker", "owned", LIBRARY_VERSION,
          f"https://hub.docker.com/v2/repositories/0state/icey/tags/{LIBRARY_VERSION}", docker_version),
-        ("Icey Server Docker", "owned", SERVER_VERSION,
-         f"https://hub.docker.com/v2/repositories/0state/icey-server/tags/{SERVER_VERSION}", docker_version),
+        ("Icey Server container", "owned", SERVER_VERSION,
+         f"https://ghcr.io/v2/auscaster/icey-server/manifests/{SERVER_VERSION}",
+         lambda b: ghcr_labels(b).get("org.opencontainers.image.version")),
         ("Icey Homebrew", "owned", LIBRARY_VERSION,
          "https://raw.githubusercontent.com/auscaster/homebrew-tap/main/Formula/icey.rb",
          lambda b: version_in(r'^  version "([^"]+)"', b)),
@@ -196,8 +216,9 @@ def main():
          lambda b: (json.loads(b).get("homepage") or "").rstrip("/")),
         ("Icey Docker homepage", "owned", HOMEPAGE,
          "https://hub.docker.com/v2/repositories/0state/icey/", docker_homepage),
-        ("Icey Server Docker homepage", "owned", HOMEPAGE,
-         "https://hub.docker.com/v2/repositories/0state/icey-server/", docker_homepage),
+        ("Icey Server container homepage", "owned", HOMEPAGE,
+         f"https://ghcr.io/v2/auscaster/icey-server/manifests/{SERVER_VERSION}",
+         lambda b: (ghcr_labels(b).get("org.opencontainers.image.url") or "").rstrip("/")),
         ("Icey Homebrew homepage", "owned", HOMEPAGE,
          "https://raw.githubusercontent.com/auscaster/homebrew-tap/main/Formula/icey.rb",
          lambda b: (version_in(r'^  homepage "([^"]+)"', b) or "").rstrip("/")),
