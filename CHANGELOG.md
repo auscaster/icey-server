@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.2.6 - 2026-10-29
+
+- Build distributable binaries without build-machine CPU tuning so images and downloads run on baseline x86-64 CPUs.
+
 ## 0.2.5 - 2026-10-29
 
 - Update package metadata, release downloads and project links to auscaster.

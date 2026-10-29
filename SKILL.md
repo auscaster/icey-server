@@ -60,7 +60,7 @@ If a requested change touches release output, inspect `VERSION`, `CHANGELOG.md`,
 
 ## Safe Operating Rules
 
-- Keep the express demo path simple: `docker run --rm --network host 0state/icey-server:latest`, then `http://localhost:4500`.
+- Keep the express demo path simple: `docker run --rm --network host ghcr.io/auscaster/icey-server:latest`, then `http://localhost:4500`.
 - Do not claim Safari support from Linux Playwright WebKit results; the README explicitly withholds that claim until Apple-platform validation exists.
 - Keep runtime bring-up staged: local `stream` without TURN, then `record`, then `relay`, then TURN-enabled external or NAT testing.
 - Treat `--doctor` as the first machine-readable preflight for operator-facing runtime changes.
@@ -79,7 +79,7 @@ Map the request to one or more surfaces:
 - `web`: Vite UI, Symple client/player integration, browser smoke
 - `docker`: published image, Compose source path, host-networking demo
 - `packaging`: staged layout, tar/zip/deb/APT/package-manager manifests
-- `release`: VERSION, ICEY_VERSION, changelog, GitHub release assets, Docker Hub
+- `release`: VERSION, ICEY_VERSION, changelog, GitHub release assets, GHCR images
 - `docs`: README, docker README, packaging README, operator instructions
 
 If the change crosses surfaces, plan validation for each touched surface before editing.
@@ -140,7 +140,7 @@ npm --prefix web run test:smoke:chromium
 For the published-image demo contract, keep the public command stable:
 
 ```bash
-docker run --rm --network host 0state/icey-server:latest
+docker run --rm --network host ghcr.io/auscaster/icey-server:latest
 ```
 
 For local source-backed Docker validation:
