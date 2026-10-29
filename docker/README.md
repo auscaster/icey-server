@@ -19,7 +19,7 @@ The fastest way to try the demo is the published image.
 This path targets Linux with host networking:
 
 ```bash
-docker run --rm --network host 0state/icey-server:latest
+docker run --rm --network host ghcr.io/auscaster/icey-server:latest
 ```
 
 Then open:
@@ -52,7 +52,7 @@ The published image and the local Compose build package:
 - the production web UI build from `icey-server/web/`
 - the sample media file at `data/test.mp4`
 
-The published image is available as `0state/icey-server:latest`.
+The published image is available as `ghcr.io/auscaster/icey-server:latest`.
 
 The local Compose path reuses the existing local build artifacts instead of recompiling inside Docker, so rebuilds stay cheap.
 
@@ -81,9 +81,9 @@ You can switch the app mode or input source with environment variables.
 Published image examples:
 
 ```bash
-docker run --rm --network host -e ICEY_MODE=record -v "$(pwd)/recordings:/app/recordings" 0state/icey-server:latest
-docker run --rm --network host -e ICEY_MODE=relay 0state/icey-server:latest
-docker run --rm --network host -e ICEY_SOURCE=rtsp://camera.local/stream1 -e ICEY_LOOP=0 0state/icey-server:latest
+docker run --rm --network host -e ICEY_MODE=record -v "$(pwd)/recordings:/app/recordings" ghcr.io/auscaster/icey-server:latest
+docker run --rm --network host -e ICEY_MODE=relay ghcr.io/auscaster/icey-server:latest
+docker run --rm --network host -e ICEY_SOURCE=rtsp://camera.local/stream1 -e ICEY_LOOP=0 ghcr.io/auscaster/icey-server:latest
 ```
 
 Compose examples:
@@ -105,7 +105,7 @@ For the published image path, `record` mode writes wherever you bind-mount `/app
 ## Notes
 
 - This is the canonical `icey-server` demo for the self-hosted media stack.
-- The express path is `docker run --rm --network host 0state/icey-server:latest`.
+- The express path is `docker run --rm --network host ghcr.io/auscaster/icey-server:latest`.
 - The source path is `docker compose up --build` from this directory.
 - For direct local use, open `http://localhost:4500`.
 - The local Compose build expects the existing `icey-server/build-dev/src/server/icey-server` binary and `icey-server/web/dist/` output to be present.
