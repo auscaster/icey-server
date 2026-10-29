@@ -9,7 +9,7 @@
       nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
       flake-utils.url = "github:numtide/flake-utils";
       icey = {
-        url = "github:nilstate/icey/${iceyVersion}";
+        url = "github:auscaster/icey/${iceyVersion}";
         flake = false;
       };
     };
@@ -55,7 +55,7 @@
 
           meta = with pkgs.lib; {
             description = "Self-hosted source-to-browser server built on icey";
-            homepage = "https://0state.com/icey/";
+            homepage = "https://auscaster.com/icey/";
             license = licenses.agpl3Plus;
             platforms = platforms.linux ++ platforms.darwin;
             mainProgram = "icey-server";

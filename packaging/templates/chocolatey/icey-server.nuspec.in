@@ -4,14 +4,14 @@
     <id>icey-server</id>
     <version>@SERVER_VERSION@</version>
     <title>icey-server</title>
-    <authors>0state</authors>
-    <projectUrl>https://0state.com/icey/</projectUrl>
-    <licenseUrl>https://github.com/nilstate/icey-server/blob/main/LICENSE.md</licenseUrl>
+    <authors>auscaster</authors>
+    <projectUrl>https://auscaster.com/icey/</projectUrl>
+    <licenseUrl>https://github.com/auscaster/icey-server/blob/main/LICENSE.md</licenseUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <projectSourceUrl>https://github.com/nilstate/icey-server</projectSourceUrl>
+    <projectSourceUrl>https://github.com/auscaster/icey-server</projectSourceUrl>
     <tags>icey webrtc media turn symple realtime</tags>
     <summary>Self-hosted source-to-browser server built on icey.</summary>
     <description>Self-hosted source-to-browser server built on icey.</description>
-    <releaseNotes>https://github.com/nilstate/icey-server/releases/tag/v@SERVER_VERSION@</releaseNotes>
+    <releaseNotes>https://github.com/auscaster/icey-server/releases/tag/v@SERVER_VERSION@</releaseNotes>
   </metadata>
 </package>

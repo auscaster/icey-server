@@ -60,7 +60,7 @@ TEMPLATE_DEB_URL="$DEB_URL"
 TEMPLATE_DEB_SHA256="${DEB_SHA256:-}"
 TEMPLATE_WINDOWS_ZIP_URL="$WINDOWS_ZIP_URL"
 TEMPLATE_WINDOWS_ZIP_SHA256="${WINDOWS_ZIP_SHA256:-}"
-APT_BASE_URL="${APT_BASE_URL:-https://apt.0state.com/icey}"
+APT_BASE_URL="${APT_BASE_URL:-https://apt.auscaster.com/icey}"
 APT_SUITE="${APT_SUITE:-stable}"
 APT_COMPONENT="${APT_COMPONENT:-main}"
 
@@ -96,7 +96,7 @@ pkgbase = icey-server
 	pkgdesc = Self-hosted source-to-browser server built on icey
 	pkgver = $SERVER_VERSION
 	pkgrel = 1
-	url = https://0state.com/icey/
+	url = https://auscaster.com/icey/
 	arch = x86_64
 	license = AGPL3
 	makedepends = cmake

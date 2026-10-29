@@ -3,9 +3,9 @@ Version: @SERVER_VERSION@
 Section: net
 Priority: optional
 Architecture: @DEB_ARCH@
-Maintainer: 0state <oss@0state.com>
+Maintainer: auscaster <hi@auscaster.com>
 Depends: @DEB_DEPENDS@
-Homepage: https://0state.com/icey/
+Homepage: https://auscaster.com/icey/
 Description: Self-hosted source-to-browser server built on icey
  Single C++ binary for WebRTC media streaming, Symple signalling, TURN relay,
  and the bundled browser UI.

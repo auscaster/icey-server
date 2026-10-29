@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.2.5 - 2026-10-29
+
+- Update package metadata, release downloads and project links to auscaster.
+- Publish APT updates to the transferred auscaster/packages repository and use apt.auscaster.com in generated installation instructions.
+
 ## Unreleased
 
 ## 0.2.4 - 2026-10-08

@@ -16,8 +16,8 @@ icey-server's `MediaCapture::openFile()` recognises libavdevice URL schemes (`av
 
 ```bash
 brew install cmake pkg-config openssl@3 ffmpeg
-git clone https://github.com/nilstate/icey
-git clone https://github.com/nilstate/icey-server
+git clone https://github.com/auscaster/icey
+git clone https://github.com/auscaster/icey-server
 cd icey-server
 cmake --preset dev && cmake --build --preset dev
 (cd web && npm install && npm run build)
@@ -42,15 +42,15 @@ Node 20+ for the web UI build.
 icey-server expects a sibling `icey` source tree. The CMake preset hard-codes `${sourceDir}/../icey`:
 
 ```bash
-cd ~/dev/0state
-git clone https://github.com/nilstate/icey
-git clone https://github.com/nilstate/icey-server
+cd ~/dev/auscaster
+git clone https://github.com/auscaster/icey
+git clone https://github.com/auscaster/icey-server
 ```
 
 You should now have:
 
 ```text
-~/dev/0state/
+~/dev/auscaster/
   icey/
   icey-server/
 ```

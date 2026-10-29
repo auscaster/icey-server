@@ -1,10 +1,10 @@
 # icey-server
 
-[Project homepage](https://0state.com/icey)
+[Project homepage](https://auscaster.com/icey)
 
 Single C++ binary: WebRTC media streaming + Symple signalling + TURN relay + web UI.
 
-Icey Server is the runnable product built on the [Icey C++ library](https://github.com/nilstate/icey).
+Icey Server is the runnable product built on the [Icey C++ library](https://github.com/auscaster/icey).
 The executable, release archives, container image, and package listings use
 the `icey-server` name.
 
@@ -288,10 +288,10 @@ Frontend: `symple-client` + `symple-player` (npm, bundled with Vite).
 ## License
 
 `icey-server` is licensed under `AGPL-3.0-or-later`. Commercial licensing is
-available from 0state; see [LICENSE.md](LICENSE.md).
+available from auscaster; see [LICENSE.md](LICENSE.md).
 
 ## See Also
 
-- [icey source-to-browser stack recipe](https://github.com/nilstate/icey/blob/main/docs/recipes/media-server-stack.md)
-- [icey WebRTC guide](https://github.com/nilstate/icey/blob/main/docs/modules/webrtc.md)
-- [icey TURN guide](https://github.com/nilstate/icey/blob/main/docs/modules/turn.md)
+- [icey source-to-browser stack recipe](https://github.com/auscaster/icey/blob/main/docs/recipes/media-server-stack.md)
+- [icey WebRTC guide](https://github.com/auscaster/icey/blob/main/docs/modules/webrtc.md)
+- [icey TURN guide](https://github.com/auscaster/icey/blob/main/docs/modules/turn.md)

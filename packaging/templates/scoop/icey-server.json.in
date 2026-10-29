@@ -1,17 +1,17 @@
 {
   "version": "@SERVER_VERSION@",
   "description": "Self-hosted source-to-browser server built on icey.",
-  "homepage": "https://0state.com/icey/",
+  "homepage": "https://auscaster.com/icey/",
   "license": "AGPL-3.0-or-later",
   "url": "@WINDOWS_ZIP_URL@",
   "hash": "@WINDOWS_ZIP_SHA256@",
   "extract_dir": "icey-server-@SERVER_VERSION@-Windows-x86_64",
   "bin": "bin/icey-server.exe",
   "checkver": {
-    "github": "https://github.com/nilstate/icey-server"
+    "github": "https://github.com/auscaster/icey-server"
   },
   "autoupdate": {
-    "url": "https://github.com/nilstate/icey-server/releases/download/v$version/icey-server-$version-Windows-x86_64.zip",
+    "url": "https://github.com/auscaster/icey-server/releases/download/v$version/icey-server-$version-Windows-x86_64.zip",
     "extract_dir": "icey-server-$version-Windows-x86_64"
   }
 }

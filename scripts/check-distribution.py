@@ -21,7 +21,7 @@ from urllib.request import Request, urlopen
 ROOT = Path(__file__).resolve().parents[1]
 LIBRARY_VERSION = (ROOT / "ICEY_VERSION").read_text().strip()
 SERVER_VERSION = (ROOT / "VERSION").read_text().strip()
-HOMEPAGE = "https://0state.com/icey"
+HOMEPAGE = "https://auscaster.com/icey"
 HEADERS = {"User-Agent": "icey-release-audit/1.0"}
 
 
@@ -161,18 +161,18 @@ def main():
     aur = "https://aur.archlinux.org/rpc/v5/info?arg[]=icey&arg[]=icey-server"
     surfaces = [
         ("Icey GitHub release", "owned", LIBRARY_VERSION,
-         f"https://api.github.com/repos/nilstate/icey/releases/tags/{LIBRARY_VERSION}", github_release_version),
+         f"https://api.github.com/repos/auscaster/icey/releases/tags/{LIBRARY_VERSION}", github_release_version),
         ("Icey Server GitHub assets", "owned", SERVER_VERSION,
-         f"https://api.github.com/repos/nilstate/icey-server/releases/tags/v{SERVER_VERSION}", server_assets),
+         f"https://api.github.com/repos/auscaster/icey-server/releases/tags/v{SERVER_VERSION}", server_assets),
         ("Icey Docker", "owned", LIBRARY_VERSION,
          f"https://hub.docker.com/v2/repositories/0state/icey/tags/{LIBRARY_VERSION}", docker_version),
         ("Icey Server Docker", "owned", SERVER_VERSION,
          f"https://hub.docker.com/v2/repositories/0state/icey-server/tags/{SERVER_VERSION}", docker_version),
         ("Icey Homebrew", "owned", LIBRARY_VERSION,
-         "https://raw.githubusercontent.com/nilstate/homebrew-tap/main/Formula/icey.rb",
+         "https://raw.githubusercontent.com/auscaster/homebrew-tap/main/Formula/icey.rb",
          lambda b: version_in(r'^  version "([^"]+)"', b)),
         ("Icey Server Homebrew", "owned", SERVER_VERSION,
-         "https://raw.githubusercontent.com/nilstate/homebrew-tap/main/Formula/icey-server.rb",
+         "https://raw.githubusercontent.com/auscaster/homebrew-tap/main/Formula/icey-server.rb",
          lambda b: version_in(r"/download/v([^/]+)/", b)),
         ("Icey AUR", "owned", LIBRARY_VERSION, aur, aur_version("icey")),
         ("Icey Server AUR", "owned", SERVER_VERSION, aur, aur_version("icey-server")),
@@ -181,7 +181,7 @@ def main():
         ("Icey Ubuntu PPA development", "owned", LIBRARY_VERSION,
          "https://api.launchpad.net/1.0/~0state/+archive/ubuntu/icey?ws.op=getPublishedBinaries&binary_name=libicey-dev&exact_match=true&status=Published", ppa_binary_version),
         ("Icey Server APT", "owned", SERVER_VERSION,
-         "https://apt.0state.com/icey/dists/stable/main/binary-amd64/Packages", apt_version),
+         "https://apt.auscaster.com/icey/dists/stable/main/binary-amd64/Packages", apt_version),
         ("Icey openSUSE source", "owned", LIBRARY_VERSION,
          "https://src.opensuse.org/api/v1/repos/0state/icey/raw/icey.spec?ref=main",
          lambda b: version_in(r"^Version:\s+(\S+)", b)),
@@ -189,25 +189,25 @@ def main():
          "https://src.opensuse.org/api/v1/repos/0state/icey/raw/_service?ref=main",
          lambda b: version_in(r'<param name="revision">([^<]+)</param>', b)),
         ("Icey GitHub homepage", "owned", HOMEPAGE,
-         "https://api.github.com/repos/nilstate/icey",
+         "https://api.github.com/repos/auscaster/icey",
          lambda b: (json.loads(b).get("homepage") or "").rstrip("/")),
         ("Icey Server GitHub homepage", "owned", HOMEPAGE,
-         "https://api.github.com/repos/nilstate/icey-server",
+         "https://api.github.com/repos/auscaster/icey-server",
          lambda b: (json.loads(b).get("homepage") or "").rstrip("/")),
         ("Icey Docker homepage", "owned", HOMEPAGE,
          "https://hub.docker.com/v2/repositories/0state/icey/", docker_homepage),
         ("Icey Server Docker homepage", "owned", HOMEPAGE,
          "https://hub.docker.com/v2/repositories/0state/icey-server/", docker_homepage),
         ("Icey Homebrew homepage", "owned", HOMEPAGE,
-         "https://raw.githubusercontent.com/nilstate/homebrew-tap/main/Formula/icey.rb",
+         "https://raw.githubusercontent.com/auscaster/homebrew-tap/main/Formula/icey.rb",
          lambda b: (version_in(r'^  homepage "([^"]+)"', b) or "").rstrip("/")),
         ("Icey Server Homebrew homepage", "owned", HOMEPAGE,
-         "https://raw.githubusercontent.com/nilstate/homebrew-tap/main/Formula/icey-server.rb",
+         "https://raw.githubusercontent.com/auscaster/homebrew-tap/main/Formula/icey-server.rb",
          lambda b: (version_in(r'^  homepage "([^"]+)"', b) or "").rstrip("/")),
         ("Icey AUR homepage", "owned", HOMEPAGE, aur, aur_homepage("icey")),
         ("Icey Server AUR homepage", "owned", HOMEPAGE, aur, aur_homepage("icey-server")),
         ("Icey Server APT homepage", "owned", HOMEPAGE,
-         "https://apt.0state.com/icey/dists/stable/main/binary-amd64/Packages",
+         "https://apt.auscaster.com/icey/dists/stable/main/binary-amd64/Packages",
          lambda b: (version_in(r'^Homepage: (\S+)', b) or "").rstrip("/")),
         ("Icey openSUSE homepage", "owned", HOMEPAGE,
          "https://src.opensuse.org/api/v1/repos/0state/icey/raw/icey.spec?ref=main",

@@ -6,7 +6,7 @@ ICEY_SOURCE_DIR ?= ../icey
 BUILD_DIR ?= build-dev
 STAGE_DIR ?= .stage
 NPM ?= npm --prefix web
-PACKAGE_PUBLISH_GIT_NAME ?= 0state OSS
+PACKAGE_PUBLISH_GIT_NAME ?= auscaster OSS
 PACKAGE_PUBLISH_GIT_EMAIL ?= oss@0state.com
 AUR_SSH_KEY ?= $(HOME)/.ssh/aur_icey
 AUR_GIT_SSH_COMMAND ?= ssh -i $(AUR_SSH_KEY) -o IdentitiesOnly=yes -o StrictHostKeyChecking=accept-new

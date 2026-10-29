@@ -19,7 +19,7 @@ jobs:
       - name: Checkout icey
         uses: actions/checkout@v7
         with:
-          repository: nilstate/icey
+          repository: auscaster/icey
           ref: ${{ steps.context.outputs.icey_version }}
           path: icey
           submodules: recursive

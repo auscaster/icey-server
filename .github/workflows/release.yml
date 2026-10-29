@@ -27,7 +27,7 @@ jobs:
       - name: Checkout icey
         uses: actions/checkout@v7
         with:
-          repository: nilstate/icey
+          repository: auscaster/icey
           ref: ${{ steps.context.outputs.icey_version }}
           path: icey
           submodules: recursive
@@ -227,7 +227,7 @@ jobs:
         if: steps.gate.outputs.publish == 'true'
         uses: actions/checkout@v7
         with:
-          repository: nilstate/homebrew-tap
+          repository: auscaster/homebrew-tap
           token: ${{ secrets.HOMEBREW_TAP_TOKEN }}
           path: .stage/homebrew-tap
 
@@ -284,32 +284,32 @@ jobs:
         if: steps.gate.outputs.publish == 'true'
         uses: actions/checkout@v7
         with:
-          repository: nilstate/0state-packages
+          repository: auscaster/packages
           token: ${{ secrets.PACKAGES_REPO_TOKEN }}
-          path: .stage/0state-packages
+          path: .stage/packages
 
       - name: Publish APT repository
         if: steps.gate.outputs.publish == 'true'
         env:
-          PACKAGES_REPO_DIR: ${{ github.workspace }}/.stage/0state-packages
+          PACKAGES_REPO_DIR: ${{ github.workspace }}/.stage/packages
           APT_REPO_ROOT: ${{ github.workspace }}/.stage/apt-repo/apt-repo
           APT_PUBLIC_DIR: ${{ github.workspace }}/.stage/apt-repo/apt-public
           APT_LIST_SOURCE: ${{ github.workspace }}/.stage/package-managers/rendered/apt/icey-server.list
           APT_REPO_PATH: icey
-          APT_BASE_URL: https://apt.0state.com/icey
+          APT_BASE_URL: https://apt.auscaster.com/icey
         run: bash ./scripts/publish-apt-repo.sh
 
       - name: Commit package repo update
         if: steps.gate.outputs.publish == 'true'
         run: |
-          git -C .stage/0state-packages config user.name "github-actions[bot]"
-          git -C .stage/0state-packages config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git -C .stage/0state-packages add .nojekyll index.html icey
-          if git -C .stage/0state-packages diff --cached --quiet; then
+          git -C .stage/packages config user.name "github-actions[bot]"
+          git -C .stage/packages config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git -C .stage/packages add .nojekyll index.html icey
+          if git -C .stage/packages diff --cached --quiet; then
             exit 0
           fi
-          git -C .stage/0state-packages commit -m "chore(icey-server): publish ${{ needs.package-linux.outputs.server_version }}"
-          git -C .stage/0state-packages push
+          git -C .stage/packages commit -m "chore(icey-server): publish ${{ needs.package-linux.outputs.server_version }}"
+          git -C .stage/packages push
 
   publish-aur:
     runs-on: ubuntu-24.04
