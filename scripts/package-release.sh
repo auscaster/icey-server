@@ -20,6 +20,7 @@ fi
 
 cmake -S "$ROOT_DIR" -B "$BUILD_DIR" \
   -DCMAKE_BUILD_TYPE=Release \
+  -DENABLE_NATIVE_ARCH=OFF \
   -DICEY_SOURCE_DIR="$ICEY_SOURCE_DIR"
 cmake --build "$BUILD_DIR" -j1 --target icey-server
 
