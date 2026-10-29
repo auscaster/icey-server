@@ -1,6 +1,6 @@
 class IceyServer < Formula
   desc "Self-hosted source-to-browser server built on icey"
-  homepage "https://0state.com/icey/"
+  homepage "https://auscaster.com/icey/"
   url "@ICEY_SERVER_SOURCE_URL@"
   sha256 "@ICEY_SERVER_SOURCE_SHA256@"
   license "AGPL-3.0-or-later"

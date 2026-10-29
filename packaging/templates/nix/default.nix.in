@@ -51,7 +51,7 @@ stdenv.mkDerivation rec {
 
   meta = with lib; {
     description = "Self-hosted source-to-browser server built on icey";
-    homepage = "https://0state.com/icey/";
+    homepage = "https://auscaster.com/icey/";
     license = licenses.agpl3Plus;
     platforms = platforms.linux ++ platforms.darwin;
     mainProgram = "icey-server";

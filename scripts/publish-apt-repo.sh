@@ -7,7 +7,7 @@ PACKAGES_REPO_DIR="${PACKAGES_REPO_DIR:?Set PACKAGES_REPO_DIR to the checked out
 APT_REPO_PATH="${APT_REPO_PATH:-icey}"
 APT_PUBLIC_DIR="${APT_PUBLIC_DIR:-$ROOT_DIR/.stage/apt-public}"
 APT_LIST_SOURCE="${APT_LIST_SOURCE:-$ROOT_DIR/.stage/package-managers/rendered/apt/icey-server.list}"
-APT_BASE_URL="${APT_BASE_URL:-https://apt.0state.com/icey}"
+APT_BASE_URL="${APT_BASE_URL:-https://apt.auscaster.com/icey}"
 DEST_DIR="$PACKAGES_REPO_DIR/$APT_REPO_PATH"
 
 if [[ ! -d "$APT_REPO_ROOT/dists" ]]; then
@@ -60,12 +60,13 @@ cat > "$PACKAGES_REPO_DIR/index.html" <<'EOF'
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>0state Packages</title>
+    <title>auscaster packages</title>
+    <link rel="canonical" href="https://apt.auscaster.com/">
   </head>
   <body>
     <main>
-      <h1>0state Packages</h1>
-      <p>Static package repositories for 0state distributions.</p>
+      <h1>auscaster packages</h1>
+      <p>Static package repositories for auscaster distributions.</p>
       <ul>
         <li><a href="./icey/">Icey APT repository</a></li>
       </ul>
@@ -81,6 +82,7 @@ cat > "$DEST_DIR/index.html" <<'EOF'
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Icey APT Repository</title>
+    <link rel="canonical" href="https://apt.auscaster.com/icey/">
   </head>
   <body>
     <main>

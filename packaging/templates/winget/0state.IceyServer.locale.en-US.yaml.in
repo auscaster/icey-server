@@ -1,11 +1,11 @@
 PackageIdentifier: 0state.IceyServer
 PackageVersion: @SERVER_VERSION@
 PackageLocale: en-US
-Publisher: 0state
-PublisherUrl: https://0state.com/icey/
-PublisherSupportUrl: https://github.com/nilstate/icey-server/issues
+Publisher: auscaster
+PublisherUrl: https://auscaster.com/icey/
+PublisherSupportUrl: https://github.com/auscaster/icey-server/issues
 PackageName: icey-server
-PackageUrl: https://0state.com/icey/
+PackageUrl: https://auscaster.com/icey/
 License: AGPL-3.0-or-later
 ShortDescription: Self-hosted source-to-browser server built on icey.
 ManifestType: defaultLocale

@@ -5,7 +5,7 @@ description: Safely build, validate, package, release, and operate the icey-serv
 
 # icey-server Operator Workflow
 
-This is a portable skill document for agents working in `nilstate/icey-server`.
+This is a portable skill document for agents working in `auscaster/icey-server`.
 Use it to preserve the repo's build, validation, packaging, and operator bring-up conventions.
 
 The file is useful as plain project documentation. Tools that understand `SKILL.md`, including runx, can optionally pair it with execution, verification, and receipts.
@@ -26,7 +26,7 @@ This workflow is grounded in these repo files:
 - `docker/README.md`: fastest demo path, host-networking assumptions, runtime overrides, and Compose source path.
 - `docs/facetime-on-macbook.md`: macOS realtime path. Single-process bring-up via the `avfoundation:` URL scheme dispatched by `MediaCapture::openFile`. Covers permission prompts, audio resampler bring-up, and the speaker default-mute.
 - `scripts/facetime-demo.sh`: one-command single-process bring-up of `icey-server --source 'avfoundation:0:none'` on macOS, fronted by the `make facetime-demo` target.
-- `VERSION` and `ICEY_VERSION`: release context for this repo and the pinned core `nilstate/icey` dependency.
+- `VERSION` and `ICEY_VERSION`: release context for this repo and the pinned core `auscaster/icey` dependency.
 
 For the current versions, read `VERSION` (icey-server) and `ICEY_VERSION` (the pinned core icey dependency) rather than relying on numbers in this file.
 
@@ -36,12 +36,12 @@ Use this skill when an agent needs to:
 
 - change `icey-server` C++ server behavior, CLI flags, config handling, operator endpoints, or install layout
 - update the bundled web UI or browser smoke expectations
-- validate native builds against a sibling `nilstate/icey` checkout
+- validate native builds against a sibling `auscaster/icey` checkout
 - modify Docker demo behavior or runtime environment variables
 - modify packaging, release metadata, package-manager manifests, or publication workflows
 - help an operator bring up `stream`, `record`, `relay`, TURN, RTSP, or TLS paths without mixing failure domains
 
-Do not use this skill to change core media primitives in `nilstate/icey`; that belongs in the core repo. This repo consumes the pinned core release through `ICEY_VERSION`.
+Do not use this skill to change core media primitives in `auscaster/icey`; that belongs in the core repo. This repo consumes the pinned core release through `ICEY_VERSION`.
 
 ## Inputs To Inspect First
 
@@ -64,7 +64,7 @@ If a requested change touches release output, inspect `VERSION`, `CHANGELOG.md`,
 - Do not claim Safari support from Linux Playwright WebKit results; the README explicitly withholds that claim until Apple-platform validation exists.
 - Keep runtime bring-up staged: local `stream` without TURN, then `record`, then `relay`, then TURN-enabled external or NAT testing.
 - Treat `--doctor` as the first machine-readable preflight for operator-facing runtime changes.
-- Preserve the pinned `ICEY_VERSION` model. Do not silently float to `nilstate/icey` main in release or CI paths.
+- Preserve the pinned `ICEY_VERSION` model. Do not silently float to `auscaster/icey` main in release or CI paths.
 - Keep package-manager output tied to real artifacts. Do not emit placeholder manifests for package managers without a matching archive and checksum.
 - Do not weaken CI coverage when changing C++, web UI, packaging, or release surfaces.
 - Do not add hosted service assumptions; the README positions the app as one binary plus local ports.
