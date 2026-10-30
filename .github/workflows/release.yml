@@ -136,11 +136,20 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Log in to auscaster on Docker Hub
+        uses: docker/login-action@v4
+        with:
+          registry: docker.io
+          username: auscaster
+          password: ${{ secrets.AUSCASTER_DOCKERHUB_TOKEN }}
+
       - name: Extract image metadata
         id: image_meta
         uses: docker/metadata-action@v6
         with:
-          images: ghcr.io/auscaster/icey-server
+          images: |
+            ghcr.io/auscaster/icey-server
+            docker.io/auscaster/icey-server
           labels: |
             org.opencontainers.image.url=https://auscaster.com/icey
           tags: |
@@ -180,13 +189,21 @@ jobs:
             sleep 1
           done
           docker rm -f icey-release-smoke >/dev/null
-          docker push "ghcr.io/auscaster/icey-server:${IMAGE_VERSION}"
-          docker push ghcr.io/auscaster/icey-server:latest
-          version_digest="$(docker buildx imagetools inspect "ghcr.io/auscaster/icey-server:${IMAGE_VERSION}" | awk '/^Digest:/ {print $2; exit}')"
-          latest_digest="$(docker buildx imagetools inspect ghcr.io/auscaster/icey-server:latest | awk '/^Digest:/ {print $2; exit}')"
-          test -n "$version_digest"
-          test "$version_digest" = "$latest_digest"
-          echo "Verified ghcr.io/auscaster/icey-server:${IMAGE_VERSION} at ${version_digest}"
+          published_digest=""
+          for image in ghcr.io/auscaster/icey-server docker.io/auscaster/icey-server; do
+            docker push "${image}:${IMAGE_VERSION}"
+            docker push "${image}:latest"
+            version_digest="$(docker buildx imagetools inspect "${image}:${IMAGE_VERSION}" | awk '/^Digest:/ {print $2; exit}')"
+            latest_digest="$(docker buildx imagetools inspect "${image}:latest" | awk '/^Digest:/ {print $2; exit}')"
+            test -n "$version_digest"
+            test "$version_digest" = "$latest_digest"
+            if [[ -n "$published_digest" && "$published_digest" != "$version_digest" ]]; then
+              echo "Registry manifests do not match for ${image}" >&2
+              exit 1
+            fi
+            published_digest="$version_digest"
+            echo "Verified ${image}:${IMAGE_VERSION} at ${version_digest}"
+          done
 
   publish-homebrew:
     runs-on: ubuntu-24.04

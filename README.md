@@ -2,6 +2,8 @@
 
 [Project homepage](https://auscaster.com/icey)
 
+Release images are published at `ghcr.io/auscaster/icey-server` and `docker.io/auscaster/icey-server`.
+
 Single C++ binary: WebRTC media streaming + Symple signalling + TURN relay + web UI.
 
 Icey Server is the runnable product built on the [Icey C++ library](https://github.com/auscaster/icey).
