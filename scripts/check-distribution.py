@@ -184,6 +184,14 @@ def main():
     if not re.fullmatch(r"[0-9]+\.[0-9]+\.[0-9]+", library_version):
         parser.exit(1, "Published Icey release has an invalid version\n")
 
+    # Docker Hub mirrors must preserve the exact public GHCR release manifest.
+    image_digests = {}
+    for image, version in (("icey", library_version), ("icey-server", SERVER_VERSION)):
+        manifest, error = fetch(f"https://ghcr.io/v2/auscaster/{image}/manifests/{version}")
+        if error:
+            parser.exit(1, f"Cannot resolve {image} release manifest: {error}\n")
+        image_digests[image] = "sha256:" + hashlib.sha256(manifest.encode()).hexdigest()
+
     aur = "https://aur.archlinux.org/rpc/v5/info?arg[]=icey&arg[]=icey-server"
     surfaces = [
         ("Icey GitHub release", "owned", library_version,
@@ -196,6 +204,24 @@ def main():
         ("Icey Server container", "owned", SERVER_VERSION,
          f"https://ghcr.io/v2/auscaster/icey-server/manifests/{SERVER_VERSION}",
          lambda b: ghcr_labels(b, "icey-server").get("org.opencontainers.image.version")),
+        ("Icey GHCR latest manifest", "owned", image_digests["icey"],
+         "https://ghcr.io/v2/auscaster/icey/manifests/latest",
+         lambda b: "sha256:" + hashlib.sha256(b.encode()).hexdigest()),
+        ("Icey Server GHCR latest manifest", "owned", image_digests["icey-server"],
+         "https://ghcr.io/v2/auscaster/icey-server/manifests/latest",
+         lambda b: "sha256:" + hashlib.sha256(b.encode()).hexdigest()),
+        ("Icey Docker Hub latest mirror", "owned", image_digests["icey"],
+         "https://hub.docker.com/v2/repositories/auscaster/icey/tags/latest/",
+         lambda b: json.loads(b).get("digest")),
+        ("Icey Server Docker Hub latest mirror", "owned", image_digests["icey-server"],
+         "https://hub.docker.com/v2/repositories/auscaster/icey-server/tags/latest/",
+         lambda b: json.loads(b).get("digest")),
+        ("Icey Docker Hub mirror", "owned", image_digests["icey"],
+         f"https://hub.docker.com/v2/repositories/auscaster/icey/tags/{library_version}/",
+         lambda b: json.loads(b).get("digest")),
+        ("Icey Server Docker Hub mirror", "owned", image_digests["icey-server"],
+         f"https://hub.docker.com/v2/repositories/auscaster/icey-server/tags/{SERVER_VERSION}/",
+         lambda b: json.loads(b).get("digest")),
         ("Icey Homebrew", "owned", library_version,
          "https://raw.githubusercontent.com/auscaster/homebrew-tap/main/Formula/icey.rb",
          lambda b: version_in(r'^  version "([^"]+)"', b)),
@@ -225,6 +251,10 @@ def main():
         ("Icey container homepage", "owned", HOMEPAGE,
          f"https://ghcr.io/v2/auscaster/icey/manifests/{library_version}",
          lambda b: (ghcr_labels(b, "icey").get("org.opencontainers.image.url") or "").rstrip("/")),
+        ("Icey Docker Hub homepage", "owned", HOMEPAGE,
+         "https://hub.docker.com/v2/repositories/auscaster/icey/", docker_homepage),
+        ("Icey Server Docker Hub homepage", "owned", HOMEPAGE,
+         "https://hub.docker.com/v2/repositories/auscaster/icey-server/", docker_homepage),
         ("Icey legacy Docker homepage", "owned", HOMEPAGE,
          "https://hub.docker.com/v2/repositories/0state/icey/", docker_homepage),
         ("Icey Server legacy Docker homepage", "owned", HOMEPAGE,
